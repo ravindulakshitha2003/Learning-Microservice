@@ -16,7 +16,11 @@ public class InventoryService {
     private InventoryRepository inventoryRepository;
 
     public InventoryDto create(InventoryDto inventoryDto) {
+
+
+
         Inventory inventory = new Inventory();
+        inventory.setId(inventory.getId());
         inventory.setProductName(inventoryDto.getProductName());
         inventory.setAvailableQuantity(inventoryDto.getAvailableQuantity());
         inventory.setWarehouse(inventoryDto.getWarehouse());
@@ -25,6 +29,9 @@ public class InventoryService {
 
         return mapToDto(savedInventory);
     }
+
+
+
 
     public List<InventoryDto> getAll() {
         List<Inventory> inventories = inventoryRepository.findAll();

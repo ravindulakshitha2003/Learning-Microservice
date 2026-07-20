@@ -1,5 +1,6 @@
 package com.example.orderservice.controller;
 
+import com.example.orderservice.commen.OrderRespond;
 import com.example.orderservice.dto.OrderDto;
 import com.example.orderservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDto> create(@RequestBody OrderDto orderDto) {
-        OrderDto createdOrder = orderService.create(orderDto);
+    public ResponseEntity<OrderRespond> create(@RequestBody OrderDto orderDto) {
+        OrderRespond createdOrder = orderService.create(orderDto);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 

@@ -18,7 +18,6 @@ public class OrderDto {
     private String productName;
 
     private int quantity;
-
     private double totalPrice;
 
 }

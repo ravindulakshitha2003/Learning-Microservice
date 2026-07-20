@@ -17,10 +17,11 @@ public class ProductService {
 
     public ProductDto create(ProductDto productDto) {
         Product product = new Product();
+        product.setId(productDto.getId());
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
-        product.setQuantity(productDto.getQuantity());
+
 
         Product savedProduct = productRepository.save(product);
 

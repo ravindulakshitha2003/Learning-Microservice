@@ -1,10 +1,15 @@
 package com.example.orderservice.service;
 
+import com.example.inventoryservice.dto.InventoryDto;
+import com.example.orderservice.commen.FailedRespond;
+import com.example.orderservice.commen.OrderRespond;
+import com.example.orderservice.commen.SuccessRespond;
 import com.example.orderservice.dto.OrderDto;
 import com.example.orderservice.entity.Order;
 import com.example.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,16 +20,46 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public OrderDto create(OrderDto orderDto) {
-        Order order = new Order();
-        order.setCustomerName(orderDto.getCustomerName());
-        order.setProductName(orderDto.getProductName());
-        order.setQuantity(orderDto.getQuantity());
-        order.setTotalPrice(orderDto.getTotalPrice());
+    private  final WebClient webClient;
 
-        Order savedOrder = orderRepository.save(order);
+    public OrderService(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
-        return mapToDto(savedOrder);
+    public OrderRespond create(OrderDto orderDto) {
+//        call the inventory
+        Integer id = Integer.valueOf(orderDto.getId());
+        try{
+          InventoryDto data =  webClient.get().uri(uriBuilder ->uriBuilder.path( "http://localhost:8002/api/inventory/{id}").build(id))
+                    .retrieve()
+                    .bodyToMono(InventoryDto.class)
+                    .block();
+
+
+            assert data != null;
+            if(data.getAvailableQuantity()>0){
+                 Order order = new Order();
+                 order.setCustomerName(orderDto.getCustomerName());
+                 order.setProductName(orderDto.getProductName());
+                 order.setQuantity(orderDto.getQuantity());
+                 order.setTotalPrice(orderDto.getTotalPrice());
+
+                 Order savedOrder = orderRepository.save(order);
+
+                 return  new SuccessRespond(savedOrder);
+
+             }else{
+                    return  new FailedRespond("Order Not Found");
+            }
+        } catch (Exception e) {
+
+            return  new FailedRespond(e.getMessage());
+        }
+
+
+
+
+
     }
 
     public List<OrderDto> getAll() {

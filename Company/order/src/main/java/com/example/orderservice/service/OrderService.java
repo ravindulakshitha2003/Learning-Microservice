@@ -30,12 +30,13 @@ public class OrderService {
 //        call the inventory
         Integer id = Integer.valueOf(orderDto.getId());
         try{
-          InventoryDto data =  webClient.get().uri(uriBuilder ->uriBuilder.path( "http://localhost:8002/api/inventory/{id}").build(id))
+            InventoryDto data = webClient.get()
+                    .uri("http://localhost:8002/api/inventory/{id}", id)
                     .retrieve()
                     .bodyToMono(InventoryDto.class)
                     .block();
 
-
+            System.out.println(data);
             assert data != null;
             if(data.getAvailableQuantity()>0){
                  Order order = new Order();

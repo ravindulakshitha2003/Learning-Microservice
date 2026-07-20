@@ -20,7 +20,7 @@ public class InventoryService {
 
 
         Inventory inventory = new Inventory();
-        inventory.setId(inventory.getId());
+        inventory.setId(inventoryDto.getId());
         inventory.setProductName(inventoryDto.getProductName());
         inventory.setAvailableQuantity(inventoryDto.getAvailableQuantity());
         inventory.setWarehouse(inventoryDto.getWarehouse());

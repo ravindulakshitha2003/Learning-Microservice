@@ -31,7 +31,7 @@ public class OrderService {
         Integer id = Integer.valueOf(orderDto.getId());
         try{
             InventoryDto data = webClient.get()
-                    .uri("http://inventory-service/api/inventory/{id}", id)
+                    .uri("http://apigatway/api/inventory/{id}", id)
                     .retrieve()
                     .bodyToMono(InventoryDto.class)
                     .block();

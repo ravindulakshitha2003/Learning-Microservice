@@ -20,6 +20,7 @@
 
     <module>commenbase</module>
     <module>discoveryServer</module>
+    <module>apigatway</module>
   </modules>
   <build>
     <plugins>

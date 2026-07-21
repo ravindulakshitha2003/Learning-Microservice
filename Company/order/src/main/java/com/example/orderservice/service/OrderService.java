@@ -22,8 +22,8 @@ public class OrderService {
 
     private  final WebClient webClient;
 
-    public OrderService(WebClient webClient) {
-        this.webClient = webClient;
+    public OrderService(WebClient.Builder builder) {
+        this.webClient = builder.build();
     }
 
     public OrderRespond create(OrderDto orderDto) {

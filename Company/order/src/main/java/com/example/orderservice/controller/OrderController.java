@@ -2,7 +2,9 @@ package com.example.orderservice.controller;
 
 import com.example.orderservice.commen.OrderRespond;
 import com.example.orderservice.dto.OrderDto;
+import com.example.orderservice.kafka.OrderPreducer;
 import com.example.orderservice.service.OrderService;
+import dto.OrderEventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +26,26 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+
+    private  OrderEventDTO orderEventDTO;
+    private final OrderPreducer orderPreducer;
+
+    public OrderController( OrderPreducer orderPreducer) {
+        this.orderPreducer = orderPreducer;
+
+
+
+    }
+
+
     @PostMapping
     public ResponseEntity<OrderRespond> create(@RequestBody OrderDto orderDto) {
         OrderRespond createdOrder = orderService.create(orderDto);
+
+        OrderEventDTO orderEventDTO = new OrderEventDTO();
+        orderEventDTO.setMessage("order comited");
+        orderEventDTO.setStatus("pending");
+        orderPreducer.sendMessage(orderEventDTO);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 

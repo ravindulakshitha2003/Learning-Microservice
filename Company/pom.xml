@@ -17,6 +17,9 @@
     <module>inventory</module>
     <module>product</module>
     <module>order</module>
+
+    <module>commenbase</module>
+    <module>discoveryServer</module>
   </modules>
   <build>
     <plugins>
@@ -70,4 +73,19 @@
       </plugin>
     </plugins>
   </build>
+  <properties>
+    <java.version>25</java.version>
+    <spring-cloud.version>2025.1.2</spring-cloud.version>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>

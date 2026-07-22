@@ -20,6 +20,8 @@
 
     <module>commenbase</module>
     <module>discoveryServer</module>
+    <module>apigateway</module>
+
   </modules>
   <build>
     <plugins>

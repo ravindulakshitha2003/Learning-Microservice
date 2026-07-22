@@ -22,20 +22,21 @@ public class OrderService {
 
     private  final WebClient webClient;
 
-    public OrderService(WebClient webClient) {
-        this.webClient = webClient;
+    public OrderService(WebClient.Builder builder) {
+        this.webClient = builder.build();
     }
 
     public OrderRespond create(OrderDto orderDto) {
 //        call the inventory
         Integer id = Integer.valueOf(orderDto.getId());
         try{
+
             InventoryDto data = webClient.get()
-                    .uri("http://localhost:8002/api/inventory/{id}", id)
+                    .uri("http://api-gateway/api/inventory/{id}", id)
                     .retrieve()
                     .bodyToMono(InventoryDto.class)
                     .block();
-
+            System.out.println("order rquest arrived to web clinet");
             System.out.println(data);
             assert data != null;
             if(data.getAvailableQuantity()>0){

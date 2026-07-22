@@ -45,6 +45,7 @@ public class OrderController {
         OrderEventDTO orderEventDTO = new OrderEventDTO();
         orderEventDTO.setMessage("order comited");
         orderEventDTO.setStatus("pending");
+        System.out.println("order rquest arrived");
         orderPreducer.sendMessage(orderEventDTO);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
